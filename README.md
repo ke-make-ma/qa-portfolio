@@ -11,6 +11,9 @@
 - Сортировка (A to Z, Z to A)
 - Валидация почтового индекса (параметризованный тест)
 
+## Результаты тестов
+![pytest results](screenshots/pytest_results.png)
+
 ### Запуск тестов:
 1. Установить зависимости: `pip install selenium pytest`
 2. Запустить: `pytest test_saucedemo.py -v`
