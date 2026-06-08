@@ -18,6 +18,16 @@ def test_get_post(post_id):
     assert data["userId"] == 1
     assert 'title' in data
 
+@pytest.mark.parametrize("post_id, expected_status",
+    [(1,200),
+    (0,404),
+    (-1,404),
+    ('abc',404),
+    (999,404)])
+def test_get_post_for_different_ids(post_id, expected_status):
+    response=requests.get(f"{BASE_URL}/posts/{post_id}")
+    assert response.status_code == expected_status
+
 #POST
 def test_create_post():
     new_post={
@@ -42,10 +52,10 @@ def test_create_post_for_different_users(userId):
     response=requests.post(f"{BASE_URL}/posts", json=new_post)
     data=check_response(response,201)
     assert isinstance(data["id"], int)
-    assert data["id"] is not None
     assert data["userId"] == new_post["userId"]
     assert data["title"] == new_post["title"]
     assert data["body"] == new_post["body"]
+
 
 #UPDATE
 def test_update_post():
@@ -58,22 +68,26 @@ def test_update_post():
 def test_delete_post():
     response=requests.delete(f"{BASE_URL}/posts/1")
     assert response.status_code in (200,204)
+    
+def test_delete_post_then_get():
+    new_post={
+        "title":"To delete",
+        "body":"Body", 
+        "userId":3
+        }    
+    response=requests.post(f"{BASE_URL}/posts", json=new_post)
+    post_id=response.json()["id"]
+    assert response.status_code == 201 #стоит ли вместо этого использовать функцию check_response?
 
-#Негативные тесты
-def test_get_nonexistent():
-    response=requests.get(f"{BASE_URL}/posts/999")
+    response=requests.delete(f"{BASE_URL}/posts/{post_id}")
+    assert response.status_code in (200,204)
+
+    response=requests.get(f"{BASE_URL}/posts/{post_id}")
     assert response.status_code == 404
 
+#Негативные тесты
 def test_create_post_empty_expected_error():
     new_post={"title":""}
     response=requests.post(f"{BASE_URL}/posts", json=new_post)
     assert response.status_code!=500
     assert response.status_code in (201,400)
-
-def test_get_string():
-    response=requests.get(f"{BASE_URL}/posts/abc")
-    assert response.status_code == 404
-
-def test_get_zero():
-    response=requests.get(f"{BASE_URL}/posts/0")
-    assert response.status_code in (400,404)
