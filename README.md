@@ -36,7 +36,7 @@
 2. Запустить: `pytest tests/test_api_asserts.py -v`
 
 ### Результаты тестов
-![pytest results](screenshots/pytest_results.png)
+![pytest results](screenshots/pytest_api_results.png)
 
 ### Технологии
 - Python 3.x
