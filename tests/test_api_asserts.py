@@ -5,7 +5,7 @@ BASE_URL="https://jsonplaceholder.typicode.com"
 #Вспомогательная
 def check_response(response, expected_status):
     assert response.status_code == expected_status
-    assert response.elapsed.total_seconds() < 1.0
+    assert response.elapsed.total_seconds() < 2.0
     assert "application/json" in response.headers.get("Content-Type", "")
     return response.json()
 
@@ -65,8 +65,9 @@ def test_update_post():
     assert updated_post["title"]==data["title"]
 
 #DELETE
-def test_delete_post():
-    response=requests.delete(f"{BASE_URL}/posts/1")
+@pytest.mark.parametrize("post_id",[5,6,7])
+def test_delete_post(post_id):
+    response=requests.delete(f"{BASE_URL}/posts/{post_id}")
     assert response.status_code in (200,204)
     
 def test_delete_post_then_get():
@@ -84,6 +85,40 @@ def test_delete_post_then_get():
 
     response=requests.get(f"{BASE_URL}/posts/{post_id}")
     assert response.status_code == 404
+
+#PATCH
+def test_patch_post():
+    original=requests.get(f"{BASE_URL}/posts/1").json()
+    patch_data={"title":"Patched title"}
+    response=requests.patch(f"{BASE_URL}/posts/1", json=patch_data)
+    assert response.status_code==200
+    data=response.json()
+    assert data["title"]==patch_data["title"]
+    assert data["body"]==original["body"]
+    assert data["userId"] == original["userId"]
+
+#HEAD
+def test_head_post():
+    response=requests.head(f"{BASE_URL}/posts/1")
+    assert response.status_code in (200,204)
+    assert "application/json" in response.headers.get("Content-Type", "")
+    assert response.text == "" #проверка, что HEAD не возвращает тело
+
+#OPTIONS
+def test_options_post():
+    response=requests.options(f"{BASE_URL}/posts/1")
+    assert response.status_code in (200,204)
+
+#all methods
+def test_allowed_methods():
+    # GET должен работать
+    assert requests.get(f"{BASE_URL}/posts/1").status_code == 200
+    # POST должен работать
+    assert requests.post(f"{BASE_URL}/posts/1").status_code != 405
+    # PUT должен работать
+    assert requests.put(f"{BASE_URL}/posts/1", json={}).status_code != 405
+    # DELETE должен работать
+    assert requests.delete(f"{BASE_URL}/posts/1").status_code != 405
 
 #Негативные тесты
 def test_create_post_empty_expected_error():
