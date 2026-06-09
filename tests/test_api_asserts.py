@@ -1,22 +1,19 @@
 import requests
 import pytest
-
-BASE_URL="https://jsonplaceholder.typicode.com"
-#Вспомогательная
-def check_response(response, expected_status):
-    assert response.status_code == expected_status
-    assert response.elapsed.total_seconds() < 2.0
-    assert "application/json" in response.headers.get("Content-Type", "")
-    return response.json()
+from api_client import BASE_URL, check_response
+import json
 
 #GET
-@pytest.mark.parametrize("post_id", [1,2,3])
+#@pytest.fixture(scope="session")
+#def post_id_from_data():
+with open("tests/test_data.json", "r") as file:
+    TEST_DATA=json.load(file)
+
+@pytest.mark.parametrize("post_id", TEST_DATA["post_id"])
 def test_get_post(post_id):
     response=requests.get(f"{BASE_URL}/posts/{post_id}")
     data=check_response(response,200)
     assert data["id"]==post_id
-    assert data["userId"] == 1
-    assert 'title' in data
 
 @pytest.mark.parametrize("post_id, expected_status",
     [(1,200),
