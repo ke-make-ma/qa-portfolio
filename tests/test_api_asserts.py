@@ -3,12 +3,10 @@ import pytest
 from api_client import BASE_URL, check_response
 import json
 
-#GET
-#@pytest.fixture(scope="session")
-#def post_id_from_data():
 with open("tests/test_data.json", "r") as file:
     TEST_DATA=json.load(file)
 
+#GET
 @pytest.mark.parametrize("post_id", TEST_DATA["post_id"])
 def test_get_post(post_id):
     response=requests.get(f"{BASE_URL}/posts/{post_id}")

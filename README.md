@@ -38,9 +38,22 @@
 ### Результаты тестов
 ![pytest results](screenshots/pytest_api_results.png)
 
+## GitHub API-тесты
+**Проект:** Тестирование GitHub API (с авторизацией)
+
+### Что покрыто:
+- Создание репозитория через POST /user/repos
+- Удаление репозитория через DELETE /repos/{owner}/{repo}
+- Проверка заголовка Authorization (Bearer token)
+
+### Запуск тестов:
+1. `$env:GITHUB_TOKEN="your_token_here"  # Windows PowerShell` или `export GITHUB_TOKEN=your_token_here # Linux/Mac`
+2. `pytest tests/test_github_api.py -v`
+
 ### Технологии
 - Python 3.x
 - pytest
 - Selenium WebDriver (UI)
 - Requests (API)
 - GitHub Actions (планируется)
+- GitHub API (авторизация через токен, создание/удаление репозиториев)
