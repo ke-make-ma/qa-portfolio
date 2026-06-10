@@ -1,4 +1,3 @@
-import pytest
 import requests
 import json
 import os
@@ -12,16 +11,15 @@ with open ("tests/fixtures/test_repo.json", 'r') as file:
     TEST_DATA=json.load(file)
 
 def test_create_and_delete_repository():
-    response=requests.post(f"{BASE_URL}/user/repos",json=TEST_DATA,headers=headers)
-    assert response.status_code == 201
-    assert response.json()["name"] == TEST_DATA["name"]
+    create_response=requests.post(f"{BASE_URL}/user/repos",json=TEST_DATA,headers=headers)
+    assert create_response.status_code == 201
+    assert create_response.json()["name"] == TEST_DATA["name"]
+    repo_full_name = create_response.json()["full_name"]
 
-    repo_full_name = response.json()["full_name"]
     delete_url = f"{BASE_URL}/repos/{repo_full_name}"
-    response=requests.delete(delete_url,headers=headers)
-    assert response.status_code == 204
+    delete_response=requests.delete(delete_url,headers=headers)
+    assert delete_response.status_code == 204
 
-    response=requests.get(delete_url,headers=headers)
-    assert response.status_code == 404
+    get_response=requests.get(delete_url,headers=headers)
+    assert get_response.status_code == 404
 
-    
