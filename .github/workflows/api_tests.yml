@@ -29,4 +29,4 @@ jobs:
       - name: Запуск автотестов (Pytest)
         run: pytest tests/test_github_api.py -v
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
