@@ -1,9 +1,62 @@
 # Портфолио QA инженера
 
-## UI-тесты (SauceDemo)
-**Проект:** Автотесты для интернет-магазина https://www.saucedemo.com
+Привет!
+Меня зовут **Софья**. Я начинающий QA Engineer.
+В этом репозитории представлены мои проекты, демонстрирующие навыки ручного и автоматизированного тестирования веб-приложений.
 
-### Что покрыто:
+## Содержание
+- [Ручное тестирование (Samokat)](#ручное-тестирование-samokat)
+- [UI-тесты (SauceDemo)](#ui-тесты-saucedemo)
+- [API-тесты (JSONPlaceholder)](#api-тесты-jsonplaceholder)
+- [GitHub API](#github-api-тесты)
+- [Технологии](#технологии)
+
+---
+
+# Ручное тестирование (Samokat)
+
+**Проект:** тестирование функциональности поиска интернет-магазина **Самокат**.
+
+### Что выполнено
+
+- Разработан чек-лист для тестирования функциональности поиска
+- Разработаны тест-кейсы
+- Проведено функциональное и исследовательское тестирование
+- Найден и оформлен дефект в Jira
+- Подготовлена тестовая документация
+
+### Артефакты
+
+#### 📄 Чек-лист и тест-кейсы в [Google Sheets](https://docs.google.com/spreadsheets/d/1pLv5iRbkDDxAqSr9MJbao2W-B2_8rGeUqRajbSLZyOA/edit?usp=sharing)
+
+<p align="center">
+  <a href="screenshots/checklist.png">
+    <img src="screenshots/checklist.png" width="600">
+  </a>
+</p>
+
+#### 🗂 Jira Board
+
+<p align="center">
+  <a href="screenshots/jira_board.png">
+    <img src="screenshots/jira_board.png" width="1000">
+  </a>
+</p>
+
+#### 🐞 Bug Report
+
+<p align="center">
+  <a href="screenshots/jira_bug_report.png">
+    <img src="screenshots/jira_bug_report.png" width="500">
+  </a>
+</p>
+
+---
+
+## UI-тесты (SauceDemo)
+**Проект:** Автотесты для интернет-магазина SauceDemo.
+
+### Основные проверки
 - Логин (успешный и неуспешный)
 - Добавление товаров в корзину (параметризованный тест)
 - Удаление товара из корзины
@@ -13,16 +66,22 @@
 - Валидация почтового индекса (параметризованный тест)
 
 ### Результаты тестов
-![pytest results](screenshots/pytest_results.png)
+<p align="center">
+  <a href="screenshots/pytest_results.png">
+    <img src="screenshots/pytest_results.png" width="700">
+  </a>
+</p>
 
 ### Запуск тестов:
 1. Установить зависимости: `pip install selenium pytest`
 2. Запустить: `pytest test_saucedemo.py -v`
 
+---
+
 ## API-тесты (JSONPlaceholder)
 **Проект:** Тестирование REST API https://jsonplaceholder.typicode.com
 
-### Что покрыто:
+### Основные проверки
 - GET /posts/{id} — параметризованные тесты (id 1,2,3)
 - GET с разными форматами id (0, -1, строка, 999) — проверка статусов
 - POST /posts — создание поста (позитивный, с пустым title)
@@ -36,7 +95,13 @@
 2. Запустить: `pytest tests/test_api_asserts.py -v`
 
 ### Результаты тестов
-![pytest results](screenshots/pytest_api_results.png)
+<p align="center">
+  <a href="screenshots/pytest_api_results.png">
+    <img src="screenshots/pytest_api_results.png" width="700">
+  </a>
+</p>
+
+---
 
 ## GitHub API-тесты
 **Проект:** Тестирование GitHub API (с авторизацией)
@@ -50,10 +115,20 @@
 1. `$env:GITHUB_TOKEN="your_token_here"  # Windows PowerShell` или `export GITHUB_TOKEN=your_token_here # Linux/Mac`
 2. `pytest tests/test_github_api.py -v`
 
-### Технологии
-- Python 3.x
+# Технологии
+### Язык программирования
+- Python
+
+### Автоматизация тестирования
 - pytest
-- Selenium WebDriver (UI)
-- Requests (API)
-- GitHub Actions (планируется)
-- GitHub API (авторизация через токен, создание/удаление репозиториев)
+- Selenium WebDriver
+- Requests
+
+### Инструменты
+- Git
+- GitHub
+- Jira
+- Google Sheets
+
+### CI/CD
+- GitHub Actions
