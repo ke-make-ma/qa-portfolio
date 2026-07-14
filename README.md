@@ -8,12 +8,13 @@
 - [Ручное тестирование (Samokat)](#ручное-тестирование-samokat)
 - [UI-тесты (SauceDemo)](#ui-тесты-saucedemo)
 - [API-тесты (JSONPlaceholder)](#api-тесты-jsonplaceholder)
-- [GitHub API](#github-api-тесты)
+- [GitHub API-тесты](#github-api-тесты)
+- [Postman API-тесты](#postman-api-тесты)
 - [Технологии](#технологии)
 
 ---
 
-# Ручное тестирование (Samokat)
+## Ручное тестирование (Samokat)
 
 **Проект:** тестирование функциональности поиска интернет-магазина **Самокат**.
 
@@ -54,9 +55,11 @@
 ---
 
 ## UI-тесты (SauceDemo)
+
 **Проект:** Автотесты для интернет-магазина SauceDemo.
 
-### Основные проверки
+### Ключевые проверки
+
 - Логин (успешный и неуспешный)
 - Добавление товаров в корзину (параметризованный тест)
 - Удаление товара из корзины
@@ -66,22 +69,26 @@
 - Валидация почтового индекса (параметризованный тест)
 
 ### Результаты тестов
+
 <p align="center">
   <a href="screenshots/pytest_results.png">
     <img src="screenshots/pytest_results.png" width="700">
   </a>
 </p>
 
-### Запуск тестов:
+### Запуск тестов
+
 1. Установить зависимости: `pip install selenium pytest`
 2. Запустить: `pytest test_saucedemo.py -v`
 
 ---
 
 ## API-тесты (JSONPlaceholder)
+
 **Проект:** Тестирование REST API https://jsonplaceholder.typicode.com
 
-### Основные проверки
+### Ключевые проверки
+
 - GET /posts/{id} — параметризованные тесты (id 1,2,3)
 - GET с разными форматами id (0, -1, строка, 999) — проверка статусов
 - POST /posts — создание поста (позитивный, с пустым title)
@@ -90,11 +97,13 @@
 - DELETE /posts/1 — удаление поста
 - DELETE + GET — проверка, что пост действительно удалён
 
-### Запуск тестов:
+### Запуск тестов
+
 1. Установить зависимости: `pip install requests pytest`
 2. Запустить: `pytest tests/test_api_asserts.py -v`
 
 ### Результаты тестов
+
 <p align="center">
   <a href="screenshots/pytest_api_results.png">
     <img src="screenshots/pytest_api_results.png" width="700">
@@ -104,34 +113,19 @@
 ---
 
 ## GitHub API-тесты
+
 **Проект:** Тестирование GitHub API (с авторизацией)
 
-### Что покрыто:
+### Основные сценарии
+
 - Создание репозитория через POST /user/repos
 - Удаление репозитория через DELETE /repos/{owner}/{repo}
 - Проверка заголовка Authorization (Bearer token)
 
-### Запуск тестов:
+### Запуск тестов
+
 1. `$env:GITHUB_TOKEN="your_token_here"  # Windows PowerShell` или `export GITHUB_TOKEN=your_token_here # Linux/Mac`
 2. `pytest tests/test_github_api.py -v`
-
-# Технологии
-### Язык программирования
-- Python
-
-### Автоматизация тестирования
-- pytest
-- Selenium WebDriver
-- Requests
-
-### Инструменты
-- Git
-- GitHub
-- Jira
-- Google Sheets
-
-### CI/CD
-- GitHub Actions
 
 ---
 
@@ -139,7 +133,7 @@
 
 **Проект:** Коллекция тестов для Mythos Sandbox API
 
-### Что покрыто
+### Ключевые проверки
 
 - Регистрация пользователя
 - Авторизация с сохранением токена в переменную коллекции
@@ -160,7 +154,7 @@
 
 <p align="center">
   <a href="screenshots/postman_collection.png">
-    <img src="screenshots/postman_collection.png" width="500">
+    <img src="screenshots/postman_collection.png" width="300">
   </a>
 </p>
 
@@ -168,7 +162,7 @@
 
 <p align="center">
   <a href="screenshots/postman_runner.png">
-    <img src="screenshots/postman_runner.png" width="700">
+    <img src="screenshots/postman_runner.png" width="400">
   </a>
 </p>
 
@@ -180,3 +174,29 @@
 ### Артефакты
 
 📁 [Коллекция Postman](postman/mythos_sandbox_collection.json)
+
+---
+
+## Технологии
+
+### Язык программирования
+
+- Python
+
+### Автоматизация тестирования
+
+- pytest
+- Selenium WebDriver
+- Requests
+
+### Инструменты
+
+- Git
+- GitHub
+- Jira
+- Google Sheets
+- Postman
+
+### CI/CD
+
+- GitHub Actions
