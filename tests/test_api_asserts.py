@@ -3,14 +3,14 @@ import pytest
 from api_client import BASE_URL, check_response
 import json
 
-with open("tests/test_data.json", "r") as file:
+with open("tests/fixtures/test_data.json", "r") as file:
     TEST_DATA=json.load(file)
 
 #GET
 @pytest.mark.parametrize("post_id", TEST_DATA["post_id"])
 def test_get_post(post_id):
     response=requests.get(f"{BASE_URL}/posts/{post_id}")
-    data=check_response(response,200)
+    data=check_response(response, 200)
     assert data["id"]==post_id
 
 @pytest.mark.parametrize("post_id, expected_status",
@@ -31,7 +31,7 @@ def test_create_post():
         "userId": 1
     }
     response=requests.post(f"{BASE_URL}/posts", json=new_post)
-    data=check_response(response,201)
+    data=check_response(response, 201)
     assert isinstance(data["id"],int)
     assert data["userId"] == new_post["userId"]
     assert data["title"] == new_post["title"]
@@ -45,18 +45,21 @@ def test_create_post_for_different_users(userId):
         "userId": userId
     }
     response=requests.post(f"{BASE_URL}/posts", json=new_post)
-    data=check_response(response,201)
+    data=check_response(response, 201)
     assert isinstance(data["id"], int)
     assert data["userId"] == new_post["userId"]
     assert data["title"] == new_post["title"]
     assert data["body"] == new_post["body"]
 
+def test_create_post_empty_body():
+    response = requests.post(f"{BASE_URL}/posts", json={})
+    assert response.status_code in (400, 201)
 
 #UPDATE
 def test_update_post():
     updated_post={"title":"Updated title", "body":"New body"}
     response=requests.put(f"{BASE_URL}/posts/1",json=updated_post)
-    data=check_response(response,200)
+    data=check_response(response, 200)
     assert updated_post["title"]==data["title"]
 
 #DELETE
@@ -72,8 +75,7 @@ def test_delete_post_then_get():
         "userId":3
         }    
     response=requests.post(f"{BASE_URL}/posts", json=new_post)
-    post_id=response.json()["id"]
-    assert response.status_code == 201 #стоит ли вместо этого использовать функцию check_response?
+    post_id = check_response(response, 201)["id"]
 
     response=requests.delete(f"{BASE_URL}/posts/{post_id}")
     assert response.status_code in (200,204)
@@ -83,14 +85,17 @@ def test_delete_post_then_get():
 
 #PATCH
 def test_patch_post():
-    original=requests.get(f"{BASE_URL}/posts/1").json()
+    get_response=requests.get(f"{BASE_URL}/posts/1")
+    original = check_response(get_response, 200)
+
     patch_data={"title":"Patched title"}
-    response=requests.patch(f"{BASE_URL}/posts/1", json=patch_data)
-    assert response.status_code==200
-    data=response.json()
-    assert data["title"]==patch_data["title"]
-    assert data["body"]==original["body"]
-    assert data["userId"] == original["userId"]
+    patch_response=requests.patch(f"{BASE_URL}/posts/1", json=patch_data)
+    updated = check_response(patch_response, 200)
+
+    assert updated["id"] == original["id"]
+    assert updated["title"] == patch_data["title"]
+    assert updated["body"] == original["body"]
+    assert updated["userId"] == original["userId"]
 
 #HEAD
 def test_head_post():
@@ -106,14 +111,10 @@ def test_options_post():
 
 #all methods
 def test_allowed_methods():
-    # GET должен работать
     assert requests.get(f"{BASE_URL}/posts/1").status_code == 200
-    # POST должен работать
     assert requests.post(f"{BASE_URL}/posts/1").status_code != 405
-    # PUT должен работать
-    assert requests.put(f"{BASE_URL}/posts/1", json={}).status_code != 405
-    # DELETE должен работать
-    assert requests.delete(f"{BASE_URL}/posts/1").status_code != 405
+    assert requests.put(f"{BASE_URL}/posts/1", json={}).status_code in (200, 204)
+    assert requests.delete(f"{BASE_URL}/posts/1").status_code in (200, 204)
 
 #Негативные тесты
 def test_create_post_empty_expected_error():

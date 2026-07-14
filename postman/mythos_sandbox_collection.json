@@ -1,0 +1,479 @@
+{
+  "info": {
+    "_postman_id": "376eca5d-2d94-4385-aeed-eacf27a4264a",
+    "name": "Mythos Sandbox API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55545584",
+    "_collection_link": "https://go.postman.co/collection/55545584-376eca5d-2d94-4385-aeed-eacf27a4264a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains success message\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('message');\r",
+              "    pm.expect(jsonData.message).to.eql('Регистрация успешна');\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"hercules_30\",\n  \"password\": \"secure_pass\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.qasandbox.org/api/register",
+          "protocol": "https",
+          "host": [
+            "api",
+            "qasandbox",
+            "org"
+          ],
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "200: Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains token\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('token');\r",
+              "    pm.expect(jsonData.token).to.be.a('string');\r",
+              "    pm.expect(jsonData.token).to.have.length.greaterThan(0);\r",
+              "});\r",
+              "\r",
+              "const token = pm.response.json().token;\r",
+              "pm.collectionVariables.set('token', token);\r",
+              "console.log('Token saved:', token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"hercules_75\",\r\n  \"password\": \"secure_pass\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.qasandbox.org/api/login",
+          "protocol": "https",
+          "host": [
+            "api",
+            "qasandbox",
+            "org"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "201: Add new character",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains character with id\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('id');\r",
+              "    pm.expect(jsonData.id).to.be.a('number');\r",
+              "    pm.expect(jsonData.id).to.be.greaterThan(0);\r",
+              "    pm.expect(jsonData).to.have.property('name');\r",
+              "    pm.expect(jsonData).to.have.property('category');\r",
+              "    pm.expect(jsonData).to.have.property('desc');\r",
+              "});\r",
+              "\r",
+              "const id = pm.response.json().id;\r",
+              "pm.collectionVariables.set('id', id);\r",
+              "console.log('Character ID saved:', id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Посейдон\",\n  \"category\": \"gods\",\n  \"desc\": \"Бог морей и землетрясений.\",\n  \"img\": \"https://images.unsplash.com/photo-1503152394-c571994fd383\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.qasandbox.org/api/mythology",
+          "protocol": "https",
+          "host": [
+            "api",
+            "qasandbox",
+            "org"
+          ],
+          "path": [
+            "api",
+            "mythology"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "200: Partial character change",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Character was partially updated\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('desc');\r",
+              "    pm.expect(jsonData.desc).to.eql('Бог только морей');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Character ID remains unchanged\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const expectedId = pm.collectionVariables.get('id');\r",
+              "    pm.expect(jsonData.id).to.eql(parseInt(expectedId));\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "accept",
+            "value": "*/*"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"desc\": \"Бог только морей\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.qasandbox.org/api/mythology/{{id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "qasandbox",
+            "org"
+          ],
+          "path": [
+            "api",
+            "mythology",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "200: Full character change",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Character was fully updated\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.name).to.eql('Зевс');\r",
+              "    pm.expect(jsonData.category).to.eql('gods');\r",
+              "    pm.expect(jsonData.desc).to.eql('Владыка Олимпа');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Character ID remains unchanged\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const expectedId = pm.collectionVariables.get('id');\r",
+              "    pm.expect(jsonData.id).to.eql(parseInt(expectedId));\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "accept",
+            "value": "*/*"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Зевс\",\n  \"category\": \"gods\",\n  \"desc\": \"Владыка Олимпа\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.qasandbox.org/api/mythology/{{id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "qasandbox",
+            "org"
+          ],
+          "path": [
+            "api",
+            "mythology",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "204: Delete character",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 204\", function () {\r",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "accept",
+            "value": "*/*"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.qasandbox.org/api/mythology/{{id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "qasandbox",
+            "org"
+          ],
+          "path": [
+            "api",
+            "mythology",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "404: Check character deleted",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Character no longer exists\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.qasandbox.org/api/mythology/{{id}}",
+          "protocol": "https",
+          "host": [
+            "api",
+            "qasandbox",
+            "org"
+          ],
+          "path": [
+            "api",
+            "mythology",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "id",
+      "value": ""
+    }
+  ]
+}
