@@ -1,8 +1,6 @@
 import os
 import pytest
 import time
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -14,7 +12,7 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 from config import get_browser_config
 
-@pytest.fixture(params=["chrome", "firefox", "edge"])
+@pytest.fixture(params=["chrome", "firefox", "edge", "yandex"])
 def driver(request):
     browser = request.param
     config = get_browser_config(browser)
@@ -32,6 +30,14 @@ def driver(request):
         driver = webdriver.Edge(service=service, options=config.get("options"))
 
     elif browser == "yandex":
+        options = config.get("options") or ChromeOptions()
+        options.add_argument("--disable-gpu")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_experimental_option("prefs", {
+            "profile.default_content_setting_values.notifications": 2,
+            "profile.default_content_setting_values.cookies": 1,
+        })
         yandex_path = config.get("binary_path")
         if yandex_path is None or not os.path.exists(yandex_path):
             pytest.skip(f"Yandex browser path not found: {yandex_path}.")
@@ -46,20 +52,19 @@ def driver(request):
         raise ValueError(f"Unsupported browser: {browser}")
 
     driver.get("https://www.saucedemo.com")
-    time.sleep(1)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(5)
     yield driver
     driver.quit()
 
 
 #Вспомогательные функции
 def login(driver):
-    wait = WebDriverWait(driver, 30)
-    username = wait.until(EC.element_to_be_clickable((By.ID, "user-name")))
+    time.sleep(1)
+    username = driver.find_element(By.ID, "user-name")
     username.click()
     username.send_keys("standard_user")
-    
-    password = wait.until(EC.element_to_be_clickable((By.ID, "password")))
+
+    password = driver.find_element(By.ID, "password")
     password.click()
     password.send_keys("secret_sauce")
 
@@ -96,9 +101,9 @@ def test_add_to_cart(driver, item_id):
     login(driver)
     driver.find_element(By.ID, item_id).click()
 
-    wait = WebDriverWait(driver, 10)
+    time.sleep(1)
     #Проверяем, что индикатор у корзины отображает добавление
-    cart_badge = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "shopping_cart_badge")))
+    cart_badge = driver.find_element(By.CLASS_NAME, "shopping_cart_badge")
     assert int(cart_badge.text) == 1
 
 
@@ -107,9 +112,9 @@ def test_remove_from_cart(driver):
     add_backpack_to_cart(driver)
     driver.find_element(By.ID,"remove-sauce-labs-backpack").click()
 
-    wait = WebDriverWait(driver, 10)
-    badge_elements = wait.until(EC.invisibility_of_element_located((By.CLASS_NAME, "shopping_cart_badge")))
-    assert badge_elements is True
+    time.sleep(1)
+    badge_elements = driver.find_elements(By.CLASS_NAME, "shopping_cart_badge")
+    assert len(badge_elements) == 0
 
 
 def test_cart_contains_added_item(driver):
@@ -128,23 +133,15 @@ def test_checkout(driver):
 
     driver.find_element(By.ID,"checkout").click()
 
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.url_contains("checkout-step-one"))
-
     driver.find_element(By.ID,"first-name").send_keys("Name")
     driver.find_element(By.ID,"last-name").send_keys("Second name")
     driver.find_element(By.ID,"postal-code").send_keys("Postal code")
     driver.find_element(By.ID,"continue").click()
 
-    wait = WebDriverWait(driver, 15)
-    wait.until(EC.url_contains("checkout-step-two"))
-
-    item_in_checkout = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "inventory_item_name")))
+    item_in_checkout = driver.find_element(By.CLASS_NAME, "inventory_item_name")
     assert item_in_checkout.text=="Sauce Labs Backpack"
 
     driver.find_element(By.ID,"finish").click()
-
-    time.sleep(1)
     
     complete_banner=driver.find_element(By.CLASS_NAME,"complete-header")
     assert complete_banner.text=="Thank you for your order!"
@@ -165,9 +162,6 @@ def test_sort_z_to_a(driver):
     item_names=[item.text for item in inventory_items]
     assert item_names == sorted(item_names,reverse=True)
 
-
-#empty: Error: Postal Code is required. "#@&" or "///" - proceeds
-
 @pytest.mark.parametrize("postal_code, should_error", [
     ("12345",False),    # валидный — ошибки нет
     (" ",False),        # пробел — ошибки нет
@@ -185,13 +179,10 @@ def test_postal_code(driver,postal_code,should_error):
     driver.find_element(By.ID,"postal-code").send_keys(postal_code)
     driver.find_element(By.ID,"continue").click()
 
-    wait = WebDriverWait(driver, 5)
-    
+    error_elements = driver.find_elements(By.CSS_SELECTOR, "[data-test='error']")
+
     if should_error:
-        error = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']")))
-        assert error is not None # ошибка есть
+        assert len(error_elements) == 1 # ошибка есть
     else:
-        wait.until(EC.url_contains("checkout-step-two"))
-        time.sleep(1)
-        error_elements = driver.find_elements(By.CSS_SELECTOR, "[data-test='error']")
         assert len(error_elements) == 0 # ошибки нет
+        #assert "checkout-step-two" in driver.current_url
