@@ -4,7 +4,7 @@
 Меня зовут **Софья**. Я начинающий QA Engineer.
 В этом репозитории представлены мои проекты, демонстрирующие навыки ручного и автоматизированного тестирования веб-приложений.
 
-## Contents
+## Содержание
 - [Ручное тестирование (Samokat)](#manual-testing-samokat)
 - [UI-тесты (SauceDemo)](#ui-tests-saucedemo)
 - [API-тесты (JSONPlaceholder)](#api-tests-jsonplaceholder)
@@ -14,7 +14,8 @@
 
 ---
 
-## Ручное тестирование (Samokat) {#manual-testing-samokat}
+<a id="manual-testing-samokat"></a>
+## Ручное тестирование (Samokat)
 
 **Проект:** тестирование функциональности поиска интернет-магазина **Самокат**.
 
@@ -54,7 +55,8 @@
 
 ---
 
-## UI-тесты (SauceDemo) {#ui-tests-saucedemo}
+<a id="ui-tests-saucedemo"></a>
+## UI-тесты (SauceDemo)
 
 **Проект:** Автотесты для интернет-магазина SauceDemo.
 
@@ -99,7 +101,8 @@
    
 ---
 
-## API-тесты (JSONPlaceholder) {#api-tests-jsonplaceholder}
+<a id="api-tests-jsonplaceholder"></a>
+## API-тесты (JSONPlaceholder)
 
 **Проект:** Тестирование REST API https://jsonplaceholder.typicode.com
 
@@ -128,7 +131,8 @@
 
 ---
 
-## GitHub API-тесты {#github-api-tests}
+<a id="github-api-tests"></a>
+## GitHub API-тесты
 
 **Проект:** Тестирование GitHub API (с авторизацией)
 
@@ -145,7 +149,8 @@
 
 ---
 
-## Postman API-тесты {#postman-api-tests}
+<a id="postman-api-tests"></a>
+## Postman API-тесты
 
 **Проект:** Коллекция тестов для Mythos Sandbox API
 
@@ -193,7 +198,8 @@
 
 ---
 
-## Технологии {#technologies}
+<a id="technologies"></a>
+## Технологии
 
 ### Язык программирования
 
