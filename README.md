@@ -68,19 +68,36 @@
 - Сортировка (A to Z, Z to A)
 - Валидация почтового индекса (параметризованный тест)
 
-### Результаты тестов
+**Кросс-браузерное тестирование:**
 
+Тесты запускаются в следующих браузерах:
+- Google Chrome
+- Mozilla Firefox
+- Microsoft Edge
+- Яндекс Браузер (при наличии)
+
+Для Яндекс.Браузера требуется задать переменную окружения `YANDEX_BROWSER_PATH` с путём к исполняемому файлу браузера.
+
+**Результаты тестов:**
 <p align="center">
   <a href="screenshots/pytest_results.png">
-    <img src="screenshots/pytest_results.png" width="700">
+    <img src="screenshots/pytest_results.png" width="900">
   </a>
 </p>
 
-### Запуск тестов
+**Запуск тестов:**
 
-1. Установить зависимости: `pip install selenium pytest`
-2. Запустить: `pytest test_saucedemo.py -v`
-
+1. Установить зависимости:
+   ```bash
+   pip install selenium pytest webdriver-manager```
+2. Запустить тесты:
+```pytest test_saucedemo.py -v```
+3. Для запуска в конкретном браузере (например, Chrome):
+```pytest test_saucedemo.py -k "chrome" -v```
+4. Для параллельного запуска (требуется pytest-xdist):
+```pip install pytest-xdist
+pytest -n 4```
+   
 ---
 
 ## API-тесты (JSONPlaceholder)
