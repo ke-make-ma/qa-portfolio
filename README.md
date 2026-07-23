@@ -4,17 +4,17 @@
 Меня зовут **Софья**. Я начинающий QA Engineer.
 В этом репозитории представлены мои проекты, демонстрирующие навыки ручного и автоматизированного тестирования веб-приложений.
 
-## Содержание
-- [Ручное тестирование (Samokat)](#ручное-тестирование-samokat)
-- [UI-тесты (SauceDemo)](#ui-тесты-saucedemo)
-- [API-тесты (JSONPlaceholder)](#api-тесты-jsonplaceholder)
-- [GitHub API-тесты](#github-api-тесты)
-- [Postman API-тесты](#postman-api-тесты)
-- [Технологии](#технологии)
+## Contents
+- [Ручное тестирование (Samokat)](#manual-testing-samokat)
+- [UI-тесты (SauceDemo)](#ui-tests-saucedemo)
+- [API-тесты (JSONPlaceholder)](#api-tests-jsonplaceholder)
+- [GitHub API-тесты](#github-api-tests)
+- [Postman API-тесты](#postman-api-tests)
+- [Технологии](#technologies)
 
 ---
 
-## Ручное тестирование (Samokat)
+## Ручное тестирование (Samokat) {#manual-testing-samokat}
 
 **Проект:** тестирование функциональности поиска интернет-магазина **Самокат**.
 
@@ -54,7 +54,7 @@
 
 ---
 
-## UI-тесты (SauceDemo)
+## UI-тесты (SauceDemo) {#ui-tests-saucedemo}
 
 **Проект:** Автотесты для интернет-магазина SauceDemo.
 
@@ -88,19 +88,18 @@
 **Запуск тестов:**
 
 1. Установить зависимости:
-   ```bash
-   pip install selenium pytest webdriver-manager```
+```pip install selenium pytest webdriver-manager```
 2. Запустить тесты:
 ```pytest test_saucedemo.py -v```
 3. Для запуска в конкретном браузере (например, Chrome):
 ```pytest test_saucedemo.py -k "chrome" -v```
 4. Для параллельного запуска (требуется pytest-xdist):
-```pip install pytest-xdist
-pytest -n 4```
+```pip install pytest-xdist```
+```pytest -n 4```
    
 ---
 
-## API-тесты (JSONPlaceholder)
+## API-тесты (JSONPlaceholder) {#api-tests-jsonplaceholder}
 
 **Проект:** Тестирование REST API https://jsonplaceholder.typicode.com
 
@@ -129,7 +128,7 @@ pytest -n 4```
 
 ---
 
-## GitHub API-тесты
+## GitHub API-тесты {#github-api-tests}
 
 **Проект:** Тестирование GitHub API (с авторизацией)
 
@@ -146,7 +145,7 @@ pytest -n 4```
 
 ---
 
-## Postman API-тесты
+## Postman API-тесты {#postman-api-tests}
 
 **Проект:** Коллекция тестов для Mythos Sandbox API
 
@@ -194,7 +193,7 @@ pytest -n 4```
 
 ---
 
-## Технологии
+## Технологии {#technologies}
 
 ### Язык программирования
 
