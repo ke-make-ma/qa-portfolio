@@ -33,7 +33,7 @@
 
 <p align="center">
   <a href="screenshots/checklist.png">
-    <img src="screenshots/checklist.png" width="600">
+    <img src="screenshots/checklist.png" width="1000">
   </a>
 </p>
 
